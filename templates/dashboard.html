@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Coffee Sales Dashboard</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            h1 {
+                color: #333;
+                text-align: center;
+            }
+            .dashboard-link {
+                display: block;
+                text-align: center;
+                margin: 20px 0;
+                padding: 15px;
+                background-color: #20229dff;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: bold;
+                transition: background-color 0.3s;
+            }
+            .dashboard-link:hover {
+                background-color: #20229dff;
+            }
+            .instructions {
+                background-color: #f9f9f9;
+                padding: 15px;
+                border-left: 4px solid #20229dff;
+                margin: 20px 0;
+            }
+            .features {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin: 20px 0;
+            }
+            .feature {
+                flex-basis: 30%;
+                background-color: #f9f9f9;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 4px;
+            }
+            @media (max-width: 768px) {
+                .feature {
+                    flex-basis: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>☕ Coffee Sales Dashboard</h1>
+            
+            <div class="instructions">
+                <p>This dashboard provides insights into coffee sales performance with interactive visualizations and filters.</p>
+            </div>
+            
+            <a href="http://localhost:8501" target="_blank" class="dashboard-link">Open Interactive Coffee Sales Dashboard</a>
+            
+            <h2>Dashboard Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <h3>Sales Analysis</h3>
+                    <p>Track total sales, average order value, and quantity metrics over time.</p>
+                </div>
+                <div class="feature">
+                    <h3>Product Performance</h3>
+                    <p>Compare sales across different coffee product lines.</p>
+                </div>
+                <div class="feature">
+                    <h3>Geographic Insights</h3>
+                    <p>Analyze sales distribution across different countries.</p>
+                </div>
+                <div class="feature">
+                    <h3>Date Filtering</h3>
+                    <p>Filter data by specific date ranges to focus on relevant periods.</p>
+                </div>
+                <div class="feature">
+                    <h3>Interactive Charts</h3>
+                    <p>Explore data through interactive visualizations built with Plotly.</p>
+                </div>
+                <div class="feature">
+                    <h3>Responsive Design</h3>
+                    <p>Dashboard adapts to different screen sizes for optimal viewing.</p>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <p><strong>Note:</strong> The dashboard requires the Streamlit server to be running. If you see an error when clicking the link, make sure the server is started.</p>
+            </div>
+        </div>
+    </body>
+</html>

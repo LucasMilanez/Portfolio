@@ -6,11 +6,10 @@ body {
 }
 
 header {
-    background: #35424a;
-    color: #ffffff;
     padding: 10px 0;
     text-align: center;
 }
+
 
 h1 {
     margin: 0;
@@ -84,13 +83,18 @@ footer {
 }
 
 .bg-dark {
-    color: #060606 !important;
+    color: #f8f9fa !important;
 }
 
-body.bg-dark .card,
+body.bg-dark .card {
+    background-color: #343a40 !important; /* tom mais claro que #23272b */
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+
 body.bg-dark .card-body {
-    background-color: #23272b !important;
-    color: #101010 !important;
+    background-color: #343a40 !important;
+    color: #f8f9fa !important;
 }
 
 body.bg-dark .card a {
@@ -99,8 +103,8 @@ body.bg-dark .card a {
 
 body.bg-dark .btn-outline-primary,
 body.bg-dark .btn-outline-success {
-    color: #020202 !important;
-    border-color: #000000 !important;
+    color: #f8f9fa !important;
+    border-color: #4fc3f7 !important;
 }
 
 body.bg-dark .title,
@@ -108,5 +112,47 @@ body.bg-dark h1,
 body.bg-dark h2,
 body.bg-dark h4,
 body.bg-dark h5 {
-    color: #0e0d0d !important;
+    color: #f8f9fa !important;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 8px;
+}
+
+.btn-outline-secondary {
+    border-radius: 50px;
+}
+
+.section {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+footer {
+    background: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 14, 56, 0.25);
+}
+
+#modeIcon {
+    color: #000000; /* azul Bootstrap */
+}
+
+body.bg-dark #modeIcon {
+    color: #ffd700; /* amarelo para o sol no dark mode */
 }

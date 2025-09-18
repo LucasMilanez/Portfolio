@@ -1,4 +1,6 @@
 from flask import Flask, render_template
+import pandas as pd
+import numpy as np
 
 app = Flask(__name__)
 
@@ -6,9 +8,9 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/datascience')
-def datascience():
-    return render_template('datascience.html')
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
