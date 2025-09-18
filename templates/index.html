@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Portfolio</title>
+</head>
+<body class="bg-light">
+    <!-- Navbar Section -->
+<nav class="navbar navbar-expand-sm bg-success navbar-light">
+    <div class="container-fluid">
+        <!--<a class="navbar-brand" href="#"> ... </a>-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_Navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapse_Navbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#educational-info">Education</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('datascience') }}">DataScience</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#prof-skill">Professional Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#contact-us">Contact Us</a>
+                </li>
+            </ul>
+            <!-- Botão Dark/White mode alinhado à direita -->
+            <button id="modeToggle" class="btn btn-outline-secondary ms-auto">
+                <i id="modeIcon" class="bi bi-moon"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+    <!-- Carousel Section -->
+    <div id="carouselExampleControls" class="carousel slide text-center carousel-dark" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="rounded-circle shadow-1-strong mb-4" src="../static/images/foto.jpeg" alt="Profile" style="width: 150px;">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <h5 class="mb-3">Lucas Milanez</h5>
+                        <p>Python | Data Analyst | Data Scientist | Web Developer</p>
+                        <p class="text-muted">
+                            <i class="fas fa-quote-left pe-2"></i>
+                            A Technical Content Engineer ensures that products are presented effectively to clients by creating clear, technical, and business-focused content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Section -->
+    <div class="section" id="about">
+        <div class="container">
+            <div class="card">
+                <div class="row">
+                    <!-- About left -->
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <div class="h4 mt-0 title">About</div>
+                            <div class="mb-3">
+                                <button class="btn btn-outline-primary btn-sm" onclick="showAbout('en')">EN</button>
+                                <button class="btn btn-outline-success btn-sm" onclick="showAbout('pt')">PT</button>
+                            </div>
+                            <p id="about-text">
+                                Profissional em formação em Engenharia de Software, com experiência em análise de dados e desenvolvimento em Python. Motivado a aplicar meus conhecimentos para criar soluções eficientes, escaláveis e orientadas por dados. Apaixonado por transformar desafios complexos em soluções de software impactantes.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Basic Information à direita -->
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <div class="h4 mt-0 title">Basic Information</div>
+                            <div class="row">
+                                <div class="col-sm-4"><strong class="text-uppercase">Age:</strong></div>
+                                <div class="col-sm-8">28</div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4"><strong class="text-uppercase">Email:</strong></div>
+                                <div class="col-sm-8">Lucas.milanez@hotmail.com</div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
+                                <div class="col-sm-8">+351 935 570 379</div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4"><strong class="text-uppercase">Address:</strong></div>
+                                <div class="col-sm-8">Guimarães, Portugal</div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4"><strong class="text-uppercase">Language:</strong></div>
+                                <div class="col-sm-8">Português, English</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Education Section -->
+    <div class="section" id="skill">
+        <div class="container my-2">
+            <div class="h4 text-center mb-4 title" id="educational-info">Education</div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="h5">Engineer Software</div>
+                    <p class="category">Unopar/Brasil <a href="https://www.unopar.com.br" target="_blank">www.unopar.com.br</a></p>
+                    <p>Completed a comprehensive program focusing on software development and.</p>
+                    <p><b>Projects:</b></p>
+                    <ul>
+                        <li>Built a data analysis tool with Python and Pandas.</li>
+                        <li>Developed a responsive web application using Flask and Bootstrap.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Professional Skills Section -->
+    <div class="section" id="skill">
+        <div class="container my-2">
+            <div class="h4 text-center mb-4 title" id="prof-skill">Professional Skills</div>
+            <div class="card">
+                <div class="card-body">
+                    <b>Programming Languages:</b> Python, SQL<br><br>
+                    <b>Tools:</b> NumPy, Pandas, Matplotlib, PowerBi, Tableau, MS Excel, OpenCV<br><br>
+                    <b>Database Management Systems:</b> MySQL, SQLite<br><br>
+                    <b>Internet Technologies:</b> Flask, HTML5, CSS, Django
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact Section -->
+    <div class="container">
+        <div class="section" id="contact">
+            <div class="h4 text-center title" id="contact-us">Contact Us</div>
+            <div class="card mb-0">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <form action="/sendemail/" method="POST">
+                                <div class="p pb-3"><strong>Feel free to contact me</strong></div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <input class="form-control" type="text" name="name" placeholder="Name" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <input class="form-control" type="text" name="Subject" placeholder="Subject" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <input class="form-control" type="email" name="_replyto" placeholder="E-mail" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-primary" type="submit">Send</button>
+                                        <a class="btn btn-primary" href="{{ url_for('static', filename='Suraj.pdf') }}" target="_blank">Download CV</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="mb-0"><strong>Address</strong></p>
+                            <p class="pb-2">Guimarães, Portugal</p>
+                            <p class="mb-0"><strong>Phone</strong></p>
+                            <p class="pb-2">+351 935 570 379</p>
+                            <p class="mb-0"><strong>Email</strong></p>
+                            <p>Lucas.milanez@hotmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showAbout(lang) {
+            const aboutText = document.getElementById('about-text');
+            if (lang === 'en') {
+                aboutText.innerHTML = "Professional in training in Software Engineering, with experience in data analysis and Python development. Motivated to apply my knowledge to create efficient, scalable, and data-driven solutions. Passionate about transforming complex challenges into impactful software solutions.";
+            } else if (lang === 'pt') {
+                aboutText.innerHTML = "Profissional em formação em Engenharia de Software, com experiência em análise de dados e desenvolvimento em Python. Motivado a aplicar meus conhecimentos para criar soluções eficientes, escaláveis e orientadas por dados. Apaixonado por transformar desafios complexos em soluções de software impactantes.";
+            }
+        }
+        // Dark/White mode toggle
+    const modeToggle = document.getElementById('modeToggle');
+    const modeIcon = document.getElementById('modeIcon');
+    const body = document.body;
+
+    modeToggle.addEventListener('click', function() {
+        if (body.classList.contains('bg-light')) {
+            body.classList.remove('bg-light');
+            body.classList.add('bg-dark', 'text-white');
+            modeIcon.classList.remove('bi-moon');
+            modeIcon.classList.add('bi-sun');
+        } else {
+            body.classList.remove('bg-dark', 'text-white');
+            body.classList.add('bg-light');
+            modeIcon.classList.remove('bi-sun');
+            modeIcon.classList.add('bi-moon');
+        }
+    });
+</script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
