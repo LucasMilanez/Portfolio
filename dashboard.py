@@ -17,7 +17,7 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     # Load the dataset
-    data = pd.read_csv('data/Coffe_sales.csv')
+    data = pd.read_csv('data/Coffee_sales.csv')
 
     # Calculate total sales
     data['total_sales'] = data['money']
@@ -60,9 +60,13 @@ if 'Date' in data.columns:
     min_date = data['Date'].min()
     max_date = data['Date'].max()
 
+    default_start = pd.to_datetime('2025-01-01')
+    default_end = pd.to_datetime('2025-12-31')
+    start_value = max(min_date, default_start)
+    end_value = min(max_date, default_end)
     date_range = st.sidebar.date_input(
         "Select Date Range",
-        value=(min_date, max_date),
+        value=(start_value, end_value),
         min_value=min_date,
         max_value=max_date
     )
@@ -79,6 +83,22 @@ if 'product_line' in data.columns:
         default=data['product_line'].unique()
     )
     data = data[data['product_line'].isin(products)]
+    
+if 'time_of_day' in data.columns:
+    times_of_day = st.sidebar.multiselect(
+        "Select Time of Day",
+        options=data['time_of_day'].unique(),
+        default=data['time_of_day'].unique()
+    )
+    data = data[data['time_of_day'].isin(times_of_day)]
+    
+if 'cash_type' in data.columns:
+    payment_methods = st.sidebar.multiselect(
+        "Select Payment Methods",
+        options=data['cash_type'].unique(),
+        default=data['cash_type'].unique()
+    )
+    data = data[data['cash_type'].isin(payment_methods)]
 
 # Main dashboard
 st.title("☕ Coffee Sales Dashboard")
@@ -110,7 +130,7 @@ with col4:
 st.markdown("---")
 
 # First row of charts
-st.subheader("Sales Analysis")
+st.subheader("Sales Analysis:")
 col1, col2 = st.columns(2)
 
 with col1:
@@ -120,20 +140,23 @@ with col1:
         sales_by_product = sales_by_product.sort_values('total_sales', ascending=False)
         
         fig = px.bar(
-            sales_by_product, 
-            x='product_line', 
+            sales_by_product,
+            x='product_line',
             y='total_sales',
             title="📊 Sales by Coffee Type",
             color='product_line',
-            labels={'product_line' 'total_sales': 'Total Sales ($)'}
+            labels={'product_line': '', 'total_sales': 'Total Sales ($)'}
         )
-        fig.update_layout(showlegend=False, 
-                            yaxis_tickprefix='$',
-                            yaxis_tickformat=',.0f'
-                          )
+        fig.update_layout(
+            showlegend=False,
+            yaxis_tickprefix='$',
+            yaxis_tickformat=',.0f',
+            xaxis_title=None,
+            yaxis_title=None
+        )
         fig.update_traces(
-        hovertemplate='<b>Product:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>'
-    )
+            hovertemplate='<b>Product:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>'
+        )
         st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -146,10 +169,11 @@ with col2:
             x='hour',
             y='total_sales',
             title="⏰ Sales by Hour of Day",
-            labels={'hour': 'Product:', 'total_sales': 'Total Sales ($)'}
+            labels={'hour': 'Hour', 'total_sales': ''},
+            
         )
-        fig.update_layout(xaxis=dict(tickmode='linear', dtick=1))
-        fig.update_traces(hovertemplate='<b>Hour::</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+        fig.update_layout(xaxis=dict(tickmode='linear', dtick=1), yaxis_tickprefix='$')
+        fig.update_traces(hovertemplate='<b>Hour:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
         st.plotly_chart(fig, use_container_width=True)
 
 col1, col2 = st.columns(2)
@@ -173,21 +197,38 @@ with col1:
                           hovertemplate='<b>Time of Day:</b> %{label}<br><b>Sales:</b> $%{value:,.0f}<extra></extra>')
         st.plotly_chart(fig, use_container_width=True)
 
+with col2:
+    # 💳 Sales by Payment Method
+    if 'cash_type' in data.columns and 'total_sales' in data.columns:
+        sales_by_payment = data.groupby('cash_type')['total_sales'].sum().reset_index()
+        fig = px.bar(
+            sales_by_payment,
+            x='total_sales',    
+            y='cash_type',
+            color='cash_type',
+            orientation='h',
+            title="💳 Sales by Payment Method",
+            labels={'cash_type': '', 'total_sales': ''}
+        )
+        fig.update_layout(yaxis_title=None, xaxis_tickprefix='$')
+    fig.update_traces(hovertemplate='<b>Payment Method:</b> %{y}<br><b>Sales:</b> $%{x:,.0f}<extra></extra>')
+    st.plotly_chart(fig)
+
 # Third row of charts
-st.subheader("Temporal Analysis")
+st.subheader("Temporal Analysis:")
 col1, col2 = st.columns(2)
 
 with col1:
     # 📅 Sales by Weekday
     if 'Weekday' in data.columns and 'total_sales' in data.columns:
-        day_order = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        full_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        #day_order = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        day_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         # Map short weekday names to full names
-        weekday_map = dict(zip(day_order, full_names))
+        weekday_map = dict(zip(day_order, day_order))
         # Replace values in Weekday column
         data['Weekday_full'] = data['Weekday'].map(weekday_map)
         # Group by full names
-        sales_by_weekday = data.groupby('Weekday_full')['total_sales'].sum().reindex(full_names).reset_index()
+        sales_by_weekday = data.groupby('Weekday_full')['total_sales'].sum().reindex(day_order).reset_index()
         sales_by_weekday = sales_by_weekday.rename(columns={'Weekday_full': 'Weekday'})
 
         if sales_by_weekday['total_sales'].sum() == 0 or sales_by_weekday.empty:
@@ -198,7 +239,7 @@ with col1:
                 x='Weekday',
                 y='total_sales',
                 title="📅 Sales by Weekday",
-                labels={'Weekday': 'Product:', 'total_sales': 'Total Sales ($)'}
+                labels={'Weekday': '', 'total_sales': ''}
             )
             fig.update_traces(hovertemplate='<b>Weekday:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
             st.plotly_chart(fig, use_container_width=True)
@@ -206,13 +247,13 @@ with col1:
 with col2:
     # 📅 Sales by Month
     if 'Month_name' in data.columns and 'total_sales' in data.columns:
+        full_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         short_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        full_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        month_map = dict(zip(short_months, full_months))
-        data['Month_full'] = data['Month_name'].map(month_map)
+        month_map = dict(zip(full_months, short_months))
+        data['short_months'] = data['Month_name'].map(month_map)
         # Group by full names
-        sales_by_month = data.groupby('Month_full')['total_sales'].sum().reindex(full_months).reset_index()
-        sales_by_month = sales_by_month.rename(columns={'Month_full': 'Month'})
+        sales_by_month = data.groupby('short_months')['total_sales'].sum().reindex(short_months).reset_index()
+        sales_by_month = sales_by_month.rename(columns={'short_months': 'Month'})
 
         if sales_by_month['total_sales'].sum() == 0 or sales_by_month.empty:
             st.info("No sales data available for months in the selected range.")
@@ -222,7 +263,7 @@ with col2:
                 x='Month',
                 y='total_sales',
                 title="📅 Sales by Month",
-                labels={'Month': 'Product:', 'total_sales': 'Total Sales ($)'}
+                labels={'Month': '', 'total_sales': ''}
             )
             fig.update_layout(xaxis_tickangle=-45)
             fig.update_traces(hovertemplate='<b>Month:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
@@ -240,7 +281,7 @@ if 'order_date' in data.columns and 'total_sales' in data.columns:
         x='order_date',
         y='total_sales',
         title="📈 Daily Revenue Trends",
-        labels={'order_date': 'Date', 'total_sales': 'Total Sales ($)'}
+        labels={'order_date': 'Date', 'total_sales': ''}
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -248,16 +289,37 @@ if 'order_date' in data.columns and 'total_sales' in data.columns:
 if 'month_year' in data.columns and 'total_sales' in data.columns:
     # Always use the original, unfiltered data for monthly trends
     monthly_sales = load_data().groupby('month_year')['total_sales'].sum().reset_index()
+    # Encontrar o mês de maior receita
+    max_idx = monthly_sales['total_sales'].idxmax()
+    max_month = monthly_sales.loc[max_idx, 'month_year']
+    max_value = monthly_sales.loc[max_idx, 'total_sales']
+
     fig = px.line(
         monthly_sales,
         x='month_year',
         y='total_sales',
         title="📈 Monthly Revenue Trends",
-        labels={'month_year': 'Month', 'total_sales': 'Total Sales ($)'}
+        markers=True,
+        line_shape='spline',
+        render_mode='svg',
+        labels={'month_year': '', 'total_sales': ''}
+    )
+    fig.add_traces(
+        px.area(monthly_sales, x='month_year', y='total_sales').data
+    )
+    fig.add_scatter(
+        x=[max_month],
+        y=[max_value],
+        mode='markers+text',
+        marker=dict(color='red', size=12, symbol='star'),
+        text=[f"Bigger: ${max_value:,.0f}"],
+        textposition='top center',
+        showlegend=False
     )
     fig.update_traces(hovertemplate='<b>Date:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+    fig.update_layout(height=400)
     st.plotly_chart(fig, use_container_width=True)
 
 # Footer
 st.markdown("---")
-st.markdown("Coffee Sales Dashboard | Created with Streamlit")
+st.markdown("Coffee Sales Dashboard | 2025 Lucas Milanez. All rights reserved.")
