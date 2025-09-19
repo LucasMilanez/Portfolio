@@ -6,9 +6,8 @@ from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime
 
-# Set page configuration
 st.set_page_config(
-    page_title="Coffee Sales Dashboard",
+    page_title="Coffee Sales Analytics",
     page_icon="☕",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -17,88 +16,134 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     # Load the dataset
-    data = pd.read_csv('data/Coffee_sales.csv')
-
-    # Calculate total sales
+    data = pd.read_csv('data/Coffe_sales.csv')
     data['total_sales'] = data['money']
-
-    # Add day of week and month
+    
     data['Date'] = pd.to_datetime(data['Date'])
     data['day_of_week'] = data['Weekday']
     data['month'] = data['Month_name']
 
-    # Extract hour from hour_of_day
     data['hour'] = data['hour_of_day']
 
-    # Use Time_of_Day from CSV
     data['time_of_day'] = data['Time_of_Day']
-
-    # No payment method needed
-
-    # Product line from coffee_name
+    data['cash_type'] = data['cash_type']
     data['product_line'] = data['coffee_name']
+    data['City'] = data['City']
 
-    # For temporal analysis
     data['month_year'] = data['Date'].dt.to_period('M').astype(str)
 
     return data
 
 data = load_data()
 
-
-# Ensure date column is datetime
+# Initial configuration
 if 'Date' in data.columns:
+    data['Date'] = pd.to_datetime(data['Date'])
     data['year'] = data['Date'].dt.year
     data['month_num'] = data['Date'].dt.month
+    data['quarter'] = data['Date'].dt.quarter
 
-# Sidebar filters
-st.sidebar.title("Filters")
+# Sidebar filters with professional organization
+st.sidebar.title("🔎 Filters")
 st.sidebar.markdown("---")
 
-# Date range filter
+# Date filter with preset options
 if 'Date' in data.columns:
     min_date = data['Date'].min()
     max_date = data['Date'].max()
+    
+    # Quick period options
+    date_preset = st.sidebar.selectbox(
+        "Quick Period",
+        options=["Custom", "Last 7 days", "Last 30 days", "This month", "This quarter", "This year", "Previous year"],
+        index=5  # Default to "This year"
+    )
+    
+    # Set dates based on selection
+    today = pd.to_datetime(datetime.now().date())
+    if date_preset == "Last 7 days":
+        start_date = today - pd.Timedelta(days=7)
+        end_date = today
+    elif date_preset == "Last 30 days":
+        start_date = today - pd.Timedelta(days=30)
+        end_date = today
+    elif date_preset == "This month":
+        start_date = today.replace(day=1)
+        end_date = today
+    elif date_preset == "This quarter":
+        current_quarter = (today.month - 1) // 3 + 1
+        start_date = pd.Timestamp(datetime(today.year, 3 * current_quarter - 2, 1))
+        end_date = today
+    elif date_preset == "This year":
+        start_date = pd.Timestamp(datetime(today.year, 1, 1))
+        end_date = today
+    elif date_preset == "Previous year":
+        start_date = pd.Timestamp(datetime(today.year - 1, 1, 1))
+        end_date = pd.Timestamp(datetime(today.year - 1, 12, 31))
+    else:  # Custom
+        date_range = st.sidebar.date_input(
+            "Select period",
+            value=(min_date, max_date),
+            min_value=min_date,
+            max_value=max_date
+        )
+        if len(date_range) == 2:
+            start_date, end_date = date_range
+        else:
+            start_date, end_date = min_date, max_date
+    
+    # Apply date filter
+    data = data[(data['Date'] >= pd.to_datetime(start_date)) & 
+                (data['Date'] <= pd.to_datetime(end_date))]
 
-    default_start = pd.to_datetime('2025-01-01')
-    default_end = pd.to_datetime('2025-12-31')
-    start_value = max(min_date, default_start)
-    end_value = min(max_date, default_end)
-    date_range = st.sidebar.date_input(
-        "Select Date Range",
-        value=(start_value, end_value),
-        min_value=min_date,
-        max_value=max_date
-    )
-    
-    if len(date_range) == 2:
-        start_date, end_date = date_range
-        data = data[(data['Date'].dt.date >= start_date) & (data['Date'].dt.date <= end_date)]
+# Organized filters with expanders
+with st.sidebar.expander("📍 Location", expanded=True):
+    if 'City' in data.columns:
+        cities = st.multiselect(
+            "Cities",
+            options=data['City'].unique(),
+            default=data['City'].unique(),
+            help="Select one or more cities"
+        )
+        data = data[data['City'].isin(cities)]
 
-# Product filter
-if 'product_line' in data.columns:
-    products = st.sidebar.multiselect(
-        "Select Products",
-        options=data['product_line'].unique(),
-        default=data['product_line'].unique()
-    )
-    data = data[data['product_line'].isin(products)]
-    
-if 'time_of_day' in data.columns:
-    times_of_day = st.sidebar.multiselect(
-        "Select Time of Day",
-        options=data['time_of_day'].unique(),
-        default=data['time_of_day'].unique()
-    )
-    data = data[data['time_of_day'].isin(times_of_day)]
-    
-if 'cash_type' in data.columns:
-    payment_methods = st.sidebar.multiselect(
-        "Select Payment Methods",
-        options=data['cash_type'].unique(),
-        default=data['cash_type'].unique()
-    )
-    data = data[data['cash_type'].isin(payment_methods)]
+with st.sidebar.expander("☕ Products", expanded=False):
+    if 'product_line' in data.columns:
+        products = st.multiselect(
+            "Product Lines",
+            options=data['product_line'].unique(),
+            default=data['product_line'].unique(),
+            help="Select one or more product lines"
+        )
+        data = data[data['product_line'].isin(products)]
+
+with st.sidebar.expander("⏰ Time of Day", expanded=False):
+    if 'time_of_day' in data.columns:
+        times_of_day = st.multiselect(
+            "Time Periods",
+            options=data['time_of_day'].unique(),
+            default=data['time_of_day'].unique(),
+            help="Select one or more time periods"
+        )
+        data = data[data['time_of_day'].isin(times_of_day)]
+
+with st.sidebar.expander("💳 Payment", expanded=False):
+    if 'cash_type' in data.columns:
+        payment_methods = st.multiselect(
+            "Payment Methods",
+            options=data['cash_type'].unique(),
+            default=data['cash_type'].unique(),
+            help="Select one or more payment methods"
+        )
+        data = data[data['cash_type'].isin(payment_methods)]
+
+# Button to clear all filters
+if st.sidebar.button("🧹 Clear All Filters"):
+    st.experimental_rerun()
+
+# Show summary of applied filters
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"**Records after filtering:** {len(data):,}")
 
 # Main dashboard
 st.title("☕ Coffee Sales Dashboard")
@@ -161,19 +206,20 @@ with col1:
 
 with col2:
     # ⏰ Sales by Hour of Day
-    if 'hour' in data.columns and 'total_sales' in data.columns:
-        sales_by_hour = data.groupby('hour')['total_sales'].sum().reset_index()
-        
+    if 'hour' in data.columns and 'total_sales' in data.columns and 'City' in data.columns:
+        sales_by_hour_city = data.groupby(['hour', 'City'])['total_sales'].sum().reset_index()
+        dark_colors = ["#0505eb", "#c4d4ff"]
         fig = px.line(
-            sales_by_hour,
+            sales_by_hour_city,
             x='hour',
             y='total_sales',
+            color='City',
             title="⏰ Sales by Hour of Day",
-            labels={'hour': 'Hour', 'total_sales': ''},
-            
+            labels={'hour': '', 'total_sales': ''},
+            color_discrete_sequence=dark_colors
         )
         fig.update_layout(xaxis=dict(tickmode='linear', dtick=1), yaxis_tickprefix='$')
-        fig.update_traces(hovertemplate='<b>Hour:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+        fig.update_traces(mode='lines+markers', hovertemplate='<b>Hour:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
         st.plotly_chart(fig, use_container_width=True)
 
 col1, col2 = st.columns(2)
@@ -214,7 +260,9 @@ with col2:
     fig.update_traces(hovertemplate='<b>Payment Method:</b> %{y}<br><b>Sales:</b> $%{x:,.0f}<extra></extra>')
     st.plotly_chart(fig)
 
+
 # Third row of charts
+
 st.subheader("Temporal Analysis:")
 col1, col2 = st.columns(2)
 
@@ -316,7 +364,7 @@ if 'month_year' in data.columns and 'total_sales' in data.columns:
         textposition='top center',
         showlegend=False
     )
-    fig.update_traces(hovertemplate='<b>Date:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+    fig.update_traces(hovertemplate='<b>Date:</b> %{x|%b/%Y}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
     fig.update_layout(height=400)
     st.plotly_chart(fig, use_container_width=True)
 

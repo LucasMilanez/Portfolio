@@ -87,7 +87,7 @@ footer {
 }
 
 body.bg-dark .card {
-    background-color: #343a40 !important; /* tom mais claro que #23272b */
+    background-color: #343a40 !important; 
     color: #f8f9fa !important;
     border-color: #343a40 !important;
 }
@@ -150,9 +150,9 @@ footer {
 }
 
 #modeIcon {
-    color: #000000; /* azul Bootstrap */
+    color: #000000; 
 }
 
 body.bg-dark #modeIcon {
-    color: #ffd700; /* amarelo para o sol no dark mode */
+    color: #ffd700; 
 }
