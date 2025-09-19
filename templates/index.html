@@ -3,144 +3,327 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lucas Milanez | Portfolio</title>
+    <title>Lucas Milanez | Data Analyst & Software Engineer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
 <body class="bg-light">
-    <!-- Navbar Section -->
-    <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_Navbar">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Lucas Milanez</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="collapse_Navbar">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#education">Education</a>
+                        <a class="nav-link" href="#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="#education">Education</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#skills">Professional Skills</a>
+                        <a class="nav-link" href="#skills">Skills</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#contact">Contact</a>
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
                     </li>
                 </ul>
-                <button id="modeToggle" class="btn btn-outline-secondary ms-auto" aria-label="Toggle dark mode">
+                <button id="modeToggle" class="btn btn-outline-light ms-3" aria-label="Toggle dark mode">
                     <i id="modeIcon" class="bi bi-moon"></i>
                 </button>
             </div>
         </div>
     </nav>
-    <!-- Carousel Section -->
-    <header class="text-center mt-4">
-        <img class="rounded-circle shadow mb-3" src="../static/images/foto.jpeg" alt="Lucas Milanez Profile Photo" style="width: 150px;">
-        <h1 class="mb-1">Lucas Milanez</h1>
-        <p class="lead mb-2">Python | Data Analyst | Data Scientist | Web Developer</p>
-        <blockquote class="blockquote">
-            <p class="mb-0">A Technical Content Engineer ensures that products are presented effectively to clients by creating clear, technical, and business-focused content.</p>
-        </blockquote>
+
+    <!-- Hero Section -->
+    <header class="container py-5 mt-4">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-center">
+                <img class="rounded-circle shadow mb-4" src="../static/images/foto.jpeg" alt="Lucas Milanez" width="200">
+            </div>
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-2">Lucas Milanez</h1>
+                <h2 class="text-primary mb-3">Data Analyst | Python Developer | Software Engineer</h2>
+                <p class="lead border-start border-primary ps-3">
+                    Transforming complex challenges into impactful software and data solutions through technical expertise and innovative thinking.
+                </p>
+                <div class="mt-4">
+                    <a href="#contact" class="btn btn-primary btn-lg me-2">Get in Touch</a>
+                    <a href="{{ url_for('static', filename='CV_LucasMilanez.pdf') }}" download class="btn btn-outline-primary btn-lg">Download CV</a>
+                </div>
+            </div>
+        </div>
     </header>
+
     <!-- About Section -->
-    <section class="section" id="about">
+    <section id="about" class="py-5 bg-white">
         <div class="container">
-            <div class="card p-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4 class="title">About</h4>
-                        <div class="mb-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="showAbout('en')">EN</button>
-                            <button class="btn btn-outline-success btn-sm" onclick="showAbout('pt')">PT</button>
+            <h2 class="text-center mb-5 fw-bold">About Me</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="card-title mb-0">Professional Profile</h4>
+                                <div>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="showAbout('en')">EN</button>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="showAbout('pt')">PT</button>
+                                </div>
+                            </div>
+                            <p id="about-text" class="card-text">
+                                Profissional em formação em Engenharia de Software, com experiência em análise de dados e desenvolvimento em Python. Motivado a aplicar meus conhecimentos para criar soluções eficientes, escaláveis e orientadas por dados. Apaixonado por transformar desafios complexos em soluções de software impactantes.
+                            </p>
                         </div>
-                        <p id="about-text">
-                            Profissional em formação em Engenharia de Software, com experiência em análise de dados e desenvolvimento em Python. Motivado a aplicar meus conhecimentos para criar soluções eficientes, escaláveis e orientadas por dados. Apaixonado por transformar desafios complexos em soluções de software impactantes.
-                        </p>
                     </div>
-                    <div class="col-md-6">
-                        <h4 class="title">Basic Information</h4>
-                        <ul class="list-unstyled">
-                            <li><strong>Age:</strong> 28</li>
-                            <li><strong>Email:</strong> Lucas.milanez@hotmail.com</li>
-                            <li><strong>Phone:</strong> +351 935 570 379</li>
-                            <li><strong>Address:</strong> Guimarães, Portugal</li>
-                            <li><strong>Language:</strong> Português, English</li>
-                        </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">Basic Information</h4>
+                            <div class="row">
+                                <div class="col-sm-6 mb-3">
+                                    <strong>Age:</strong><br>28
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <strong>Email:</strong><br>Lucas.milanez@hotmail.com
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <strong>Phone:</strong><br>+351 935 570 379
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <strong>Location:</strong><br>Guimarães, Portugal
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <strong>Languages:</strong><br>Português, English
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <strong>Status:</strong><br>Available for projects
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+        <!-- Skills Section -->
+    <section id="skills" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Professional Skills</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-code-slash display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">Programming</h5>
+                            <p class="card-text">Python, SQL, JavaScript</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-bar-chart display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">Data Analysis</h5>
+                            <p class="card-text">Pandas, NumPy, Power BI, Tableau, Excel</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-database display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">Databases</h5>
+                            <p class="card-text">MySQL, SQL Server, SQLite</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-globe display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">Web Technologies</h5>
+                            <p class="card-text">Flask, Django, HTML5, CSS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Education Section -->
-    <section class="section" id="education">
+    <section id="education" class="py-5 bg-light">
         <div class="container">
-            <h4 class="text-center mb-4 title">Education</h4>
-            <div class="card p-4">
-                <h5>Software Engineer</h5>
-                <p class="category">Unopar/Brasil <a href="https://www.unopar.com.br" target="_blank" rel="noopener">www.unopar.com.br</a></p>
-                <p>Completed a comprehensive program focusing on software development and engineering.</p>
-                <p><b>Projects:</b></p>
-                <ul>
-                    <li>Built a data analysis tool with Python, Streamlit, Pandas, Numpy: <a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    <li>Developed a responsive web application using Flask and Bootstrap.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    <!-- Professional Skills Section -->
-    <section class="section" id="skills">
-        <div class="container">
-            <h4 class="text-center mb-4 title">Professional Skills</h4>
-            <div class="card p-4">
-                <b>Programming Languages:</b> Python, SQL<br>
-                <b>Tools:</b> NumPy, Pandas, Matplotlib, PowerBi, Tableau, MS Excel, OpenCV<br>
-                <b>Database Management Systems:</b> MySQL, SQL Server, SQLite<br>
-                <b>Internet Technologies:</b> Flask, HTML5, CSS, Django
-            </div>
-        </div>
-    </section>
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="container">
-            <h4 class="text-center title mb-4">Contact</h4>
-            <div class="card p-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <form action="/sendemail/" method="POST" novalidate>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input class="form-control" type="text" name="name" id="name" placeholder="Name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="subject" class="form-label">Subject</label>
-                                <input class="form-control" type="text" name="Subject" id="subject" placeholder="Subject" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">E-mail</label>
-                                <input class="form-control" type="email" name="_replyto" id="email" placeholder="E-mail" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Your Message</label>
-                                <textarea class="form-control" name="message" id="message" placeholder="Your Message" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <button class="btn btn-primary" type="submit">Send</button>
-                                <a class="btn btn-outline-primary" href="{{ url_for('static', filename='CV_LucasMilanez.pdf') }}" download>Download CV</a>
-                            </div>
-                        </form>
+            <h2 class="text-center mb-5 fw-bold">Education & Certifications</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Software Engineer</h5>
+                            <h6 class="card-subtitle mb-2 text-primary">UNOPAR • 2024 - 2027 (Expected)</h6>
+                            <a href="https://www.unopar.com.br" target="_blank" rel="noopener" class="text-decoration-none">www.unopar.com.br</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Data Scientist</h5>
+                            <h6 class="card-subtitle mb-2 text-primary">Data Science Academy • 08/2025 - Present</h6>
+                            <a href="https://www.datascienceacademy.com.br" target="_blank" rel="noopener" class="text-decoration-none">www.datascienceacademy.com.br</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Deep Learning for AI Applications with Python</h5>
+                            <h6 class="card-subtitle mb-2 text-primary">Data Science Academy • 07/2024 - 01/2025</h6>
+                            <a href="https://www.datascienceacademy.com.br" target="_blank" rel="noopener" class="text-decoration-none">www.datascienceacademy.com.br</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Web Development in Python, Flask and Django</h5>
+                            <h6 class="card-subtitle mb-2 text-primary">Estacio de Sá • 03/2024 - 08/2024</h6>
+                            <a href="https://www.estacio.br" target="_blank" rel="noopener" class="text-decoration-none">www.estacio.br</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Power BI</h5>
+                            <h6 class="card-subtitle mb-2 text-primary">Udemy • 01/2023 - 02/2023</h6>
+                            <a href="https://www.udemy.com" target="_blank" rel="noopener" class="text-decoration-none">www.udemy.com</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Python Programming</h5>
+                            <h6 class="card-subtitle mb-2 text-primary">Udemy • 01/2023 - 06/2023</h6>
+                            <a href="https://www.udemy.com" target="_blank" rel="noopener" class="text-decoration-none">www.udemy.com</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Projects</h2>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary p-3 rounded me-3">
+                                    <i class="bi bi-graph-up text-white fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">Data Analysis Dashboard</h5>
+                                    <span class="badge bg-primary">Python</span>
+                                    <span class="badge bg-info">Streamlit</span>
+                                    <span class="badge bg-success">Pandas</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Built an interactive data analysis tool with Python, Streamlit, Pandas, and NumPy for visualizing and exploring datasets.</p>
+                            <a href="https://portfolio-lucasmilanez.streamlit.app/" class="btn btn-outline-primary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary p-3 rounded me-3">
+                                    <i class="bi bi-window-fullscreen text-white fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">Web Application</h5>
+                                    <span class="badge bg-primary">Flask</span>
+                                    <span class="badge bg-info">Bootstrap</span>
+                                    <span class="badge bg-success">Python</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Developed a responsive web application using Flask and Bootstrap with modern UI components and seamless user experience.</p>
+                            <a href="#" class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Get In Touch</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-4 p-md-5">
+                            <form action="/sendemail/" method="POST" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input class="form-control form-control-lg" type="text" name="name" id="name" placeholder="Your Name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input class="form-control form-control-lg" type="email" name="_replyto" id="email" placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input class="form-control form-control-lg" type="text" name="Subject" id="subject" placeholder="Subject" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="message" class="form-label">Your Message</label>
+                                    <textarea class="form-control" name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex">
+                                    <button class="btn btn-primary btn-lg px-5" type="submit">Send Message</button>
+                                    <a class="btn btn-outline-primary btn-lg px-5" href="{{ url_for('static', filename='CV_LucasMilanez.pdf') }}" download>Download CV</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer>
-        &copy; 2025 Lucas Milanez. All rights reserved.
+    <footer class="py-4 bg-primary text-white text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Lucas Milanez. All rights reserved.</p>
+        </div>
     </footer>
+
     <script>
         function showAbout(lang) {
             const aboutText = document.getElementById('about-text');
@@ -150,24 +333,29 @@
                 aboutText.innerHTML = "Profissional em formação em Engenharia de Software, com experiência em análise de dados e desenvolvimento em Python. Motivado a aplicar meus conhecimentos para criar soluções eficientes, escaláveis e orientadas por dados. Apaixonado por transformar desafios complexos em soluções de software impactantes.";
             }
         }
+
         // Dark/White mode toggle
         const modeToggle = document.getElementById('modeToggle');
         const modeIcon = document.getElementById('modeIcon');
         const body = document.body;
+        
         modeToggle.addEventListener('click', function() {
             if (body.classList.contains('bg-light')) {
                 body.classList.remove('bg-light');
                 body.classList.add('bg-dark');
+                body.classList.add('text-white');
                 modeIcon.classList.remove('bi-moon');
                 modeIcon.classList.add('bi-sun');
             } else {
                 body.classList.remove('bg-dark');
+                body.classList.remove('text-white');
                 body.classList.add('bg-light');
                 modeIcon.classList.remove('bi-sun');
                 modeIcon.classList.add('bi-moon');
-    }
-});
+            }
+        });
     </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
