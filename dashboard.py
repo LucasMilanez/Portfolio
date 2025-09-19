@@ -125,7 +125,7 @@ with col1:
             y='total_sales',
             title="📊 Sales by Coffee Type",
             color='product_line',
-            labels={'product_line': 'Product:', 'total_sales': 'Total Sales ($)'}
+            labels={'product_line' 'total_sales': 'Total Sales ($)'}
         )
         fig.update_layout(showlegend=False, 
                             yaxis_tickprefix='$',
@@ -149,7 +149,7 @@ with col2:
             labels={'hour': 'Product:', 'total_sales': 'Total Sales ($)'}
         )
         fig.update_layout(xaxis=dict(tickmode='linear', dtick=1))
-        fig.update_traces(hovertemplate='<b>Product:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+        fig.update_traces(hovertemplate='<b>Hour::</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
         st.plotly_chart(fig, use_container_width=True)
 
 col1, col2 = st.columns(2)
@@ -170,7 +170,7 @@ with col1:
             hole=0.4
         )
         fig.update_traces(textposition='inside', textinfo='percent+label',
-                          hovertemplate='<b>Product:</b> %{label}<br><b>Sales:</b> $%{value:,.0f}<extra></extra>')
+                          hovertemplate='<b>Time of Day:</b> %{label}<br><b>Sales:</b> $%{value:,.0f}<extra></extra>')
         st.plotly_chart(fig, use_container_width=True)
 
 # Third row of charts
@@ -200,7 +200,7 @@ with col1:
                 title="📅 Sales by Weekday",
                 labels={'Weekday': 'Product:', 'total_sales': 'Total Sales ($)'}
             )
-            fig.update_traces(hovertemplate='<b>Product:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+            fig.update_traces(hovertemplate='<b>Weekday:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
             st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -225,7 +225,7 @@ with col2:
                 labels={'Month': 'Product:', 'total_sales': 'Total Sales ($)'}
             )
             fig.update_layout(xaxis_tickangle=-45)
-            fig.update_traces(hovertemplate='<b>Product:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
+            fig.update_traces(hovertemplate='<b>Month:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
             st.plotly_chart(fig, use_container_width=True)
 
 # Fourth row - Revenue Trends Over Time
@@ -246,8 +246,8 @@ if 'order_date' in data.columns and 'total_sales' in data.columns:
 
 # Monthly trends
 if 'month_year' in data.columns and 'total_sales' in data.columns:
-    monthly_sales = data.groupby('month_year')['total_sales'].sum().reset_index()
-    
+    # Always use the original, unfiltered data for monthly trends
+    monthly_sales = load_data().groupby('month_year')['total_sales'].sum().reset_index()
     fig = px.line(
         monthly_sales,
         x='month_year',
@@ -255,6 +255,7 @@ if 'month_year' in data.columns and 'total_sales' in data.columns:
         title="📈 Monthly Revenue Trends",
         labels={'month_year': 'Month', 'total_sales': 'Total Sales ($)'}
     )
+    fig.update_traces(hovertemplate='<b>Date:</b> %{x}<br><b>Sales:</b> $%{y:,.0f}<extra></extra>')
     st.plotly_chart(fig, use_container_width=True)
 
 # Footer
